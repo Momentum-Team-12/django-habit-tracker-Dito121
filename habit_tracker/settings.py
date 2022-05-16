@@ -12,10 +12,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import environ
 from pathlib import Path
+import os
+from django.core.exceptions import ImproperlyConfigured
+
 
 env = environ.Env(
+    # set casting, default value
     DEBUG=(bool, False)
 )
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
+environ.Env.read_env()
+
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -46,7 +54,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.sites',
     "registration",
-    'django.contrib.admin',
     'habit',
 ]
 
@@ -85,10 +92,7 @@ WSGI_APPLICATION = 'habit_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': env('DATABASE')
-}
-
+DATABASES = {'default': env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
