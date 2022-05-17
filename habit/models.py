@@ -8,3 +8,18 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Habit(models.Model):
+    name = models.CharField(max_length=255)
+    target = models.CharField(max_length=255)
+    custom_user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, max_length=255)
+    unit = models.CharField(max_length=255)
+    frequency = models.CharField(max_length=255)
+    created_at = models.DateField(auto_now_add=True)
+    ends_on = models.DateField()
+
+
+class DATERECORDS(models.Model):
+    habit = models.ForeignKey('Habit', on_delete=models.CASCADE, max_length=255)
+    actual = models.IntegerField()
