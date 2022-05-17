@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import environ
 from pathlib import Path
-import os
-from django.core.exceptions import ImproperlyConfigured
-
+import django_on_heroku
 
 env = environ.Env(
     # set casting, default value
@@ -44,6 +42,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "registration",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,7 +52,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'django_extensions',
     'django.contrib.sites',
-    "registration",
     'habit',
 ]
 
@@ -140,3 +138,6 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "habit.CustomUser"
+
+django_on_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']

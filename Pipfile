@@ -5,9 +5,13 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-environ = "*"
 django-extensions = "*"
 django-registration-redux = "*"
+django-debug-toolbar = "*"
 psycopg2-binary = "*"
+django-on-heroku = "*"
+gunicorn = "*"
 
 [dev-packages]
 flake8 = "*"
