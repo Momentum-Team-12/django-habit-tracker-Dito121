@@ -16,12 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from habit import views as habit_views
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="base.html"), name="base"),
+    path("", habit_views.list_habits, name='list_habits'),
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
     path('accounts/', include('registration.backends.simple.urls')),
+    path("habit/<int:pk>", habit_views.habit_details, name="habit_details"),
+    path("habit/new", habit_views.add_habit, name="add_habit"),
+    path("habit/<int:pk>/edit", habit_views.edit_habit, name="edit_habit"),
+    path("habit/<int:pk>/delete", habit_views.delete_habit, name="delete_habit"),
     # path("accounts/", include("habit.urls")),
     # path("accounts/", include("django.contrib.auth.urls")),
 ]

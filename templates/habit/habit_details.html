@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ habit.name }}</h1>
+<div>
+    <h5> Habit target: {{ habit.target }} </h5>
+    <p> Habit created: {{ habit.created_at }} </p>
+    <br>
+    <p> Habit started on: {{ habit.starts_on }} </p>
+    <p> Habit will end on: {{ habit.ends_on }} </p>
+</div>
+
+{% endblock %}
