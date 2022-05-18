@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = (
             "username",
             "email",
