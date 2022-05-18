@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "debug_toolbar",
     'django_extensions',
-    # 'django.contrib.sites',
     'habit',
 ]
 
@@ -137,7 +136,9 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-AUTH_USER_MODEL = "habit.CustomUser"
+AUTH_USER_MODEL = "habit.User"
 
 django_on_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+
+LOGIN_REDIRECT_URL = "/"

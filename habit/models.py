@@ -1,17 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import UniqueConstraint
 
 
-class Meta:
-    db_table = 'date_record'
-    constraints = [
-        models.UniqueConstraint(fields=['habit', 'date'], name='unique_date_record')
-    ]
-
-
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     def __repr__(self):
-        return f"<User username={self.username}>"
+        return f"<User username={self.username} pk={self.pk}>"
 
     def __str__(self):
         return self.username
@@ -20,12 +14,12 @@ class CustomUser(AbstractUser):
 class Habit(models.Model):
     name = models.CharField(max_length=255)
     target = models.IntegerField()
-    custom_user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='habits', max_length=255)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='habits', max_length=255)
     unit = models.CharField(max_length=255)
-    frequency = models.CharField(max_length=255, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    starts_on = models.DateField(null=True, blank=True)
-    ends_on = models.DateField(null=True, blank=True)
+    frequency = models.CharField(max_length=255)
+    created_at = models.DateField(auto_now_add=True)
+    starts_on = models.DateField()
+    ends_on = models.DateField()
 
     def __str__(self):
         return self.name
@@ -36,3 +30,12 @@ class DateRecord(models.Model):
     habit = models.ForeignKey('Habit', on_delete=models.CASCADE, related_name='date_records', max_length=255)
     actual = models.IntegerField()
     date = models.DateField()
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['habit', 'date'], name='unique_date_record')
+        ]
+        ordering = ['habit', 'date']
+
+    def __str__(self):
+        return self.date

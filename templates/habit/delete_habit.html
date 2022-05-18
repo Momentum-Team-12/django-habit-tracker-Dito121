@@ -6,6 +6,7 @@
 <div>
   <form action="{% url 'delete_habit' pk=habit.pk %}" method="POST">
     {% csrf_token %}
+    {{ form.as_p }}
     <p>Are you sure you want to delete {{ habit.name }}?</p>
     <div>
       <button type="submit"> Delete Habit </button>
