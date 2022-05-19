@@ -10,4 +10,7 @@
     <p> Habit will end on: {{ habit.ends_on }} </p>
 </div>
 
+<button> <a href="{% url 'edit_habit' habit.pk %}"> Edit Habit </a> </button>
+<button> <a href="{% url 'delete_habit' habit.pk %}"> Delete Habit </a> </button>
+
 {% endblock %}
