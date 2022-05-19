@@ -28,6 +28,8 @@ urlpatterns = [
     path("habit/<int:pk>/edit", habit_views.edit_habit, name="edit_habit"),
     path("habit/<int:pk>/delete", habit_views.delete_habit, name="delete_habit"),
     path("accounts/login/", habit_views.list_habits, name="login"),
+    path("accounts/logout/", habit_views.list_habits, name="logout"),
+    path("habit_details/<int:pk>", habit_views.habit_details, name="habit_details"),
     # path("accounts/", include("habit.urls")),
     # path("accounts/", include("django.contrib.auth.urls")),
 ]

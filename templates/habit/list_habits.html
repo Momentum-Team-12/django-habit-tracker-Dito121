@@ -3,6 +3,8 @@
 
 <a href="{% url 'login' %}"> Login </a>
 
+<a href="{% url 'logout' %}"> Logout </a>
+
 <a href="{% url 'add_habit' %}"> Add Habit </a>
 
 {% for habit in habits %}
@@ -11,5 +13,5 @@
     <a href="{% url 'edit_habit' habit.pk %}"> Edit Habit </a>
     <a href="{% url 'delete_habit' habit.pk %}"> Delete Habit </a>
 </div>
-    {% endfor %}
+{% endfor %}
 {% endblock %}

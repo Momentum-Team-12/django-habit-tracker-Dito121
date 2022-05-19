@@ -4,17 +4,25 @@ from django.views.generic.edit import CreateView
 from .forms import HabitForm
 from .models import User, Habit, DateRecord
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 @login_required
 def list_habits(request):
-    habits = Habit.objects.all()
+    logout(request)
+    return redirect("log_out")
+
+
+@login_required
+def list_habits(request):
+    habits = Habit.objects.filter(user=request.user)
     return render(request, "habit/list_habits.html", {'habits': habits})
 
 
 @login_required
 def habit_details(request, pk):
     habit = Habit.objects.get(pk=pk)
+    # date_records = DateRecord.objects.filter(habit=request.habit)
     return render(request, "habit/habit_details.html", {'habit': habit})
 
 
