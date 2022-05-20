@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import User, Habit, DateRecord
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -33,6 +33,7 @@ class HabitForm(forms.ModelForm):
             'starts_on',
             'ends_on',
         ]
+
 
 class DateRecordForm(forms.ModelForm):
     class Meta:

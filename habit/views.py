@@ -54,10 +54,7 @@ def edit_habit(request, pk):
             habit.save()
             return redirect(to='list_habits')
 
-    return render(request, "habit/edit_habit.html", {
-        "form": form,
-        "habit": habit,
-    })
+    return render(request, "habit/edit_habit.html", {"form": form, "habit": habit})
 
 
 @login_required
@@ -79,7 +76,6 @@ def add_date_record(request, pk):
         form = DateRecordForm(data=request.POST)
         if form.is_valid():
             date_record = form.save(commit=False)
-            date_record.user = request.user
             date_record.habit = habit
             date_record.save()
             return redirect(to='list_date_record')
@@ -89,28 +85,24 @@ def add_date_record(request, pk):
 
 @login_required
 def edit_date_record(request, pk):
-    habit = get_object_or_404(Habit, pk=pk)
+    date_record = get_object_or_404(DateRecord, pk=pk)
     if request.method == 'GET':
-        form = HabitForm(instance=habit)
+        form = DateRecord(instance=date_record)
     else:
-        form = HabitForm(data=request.POST, instance=habit)
+        form = DateRecordForm(data=request.POST, instance=date_record)
         if form.is_valid():
-            habit = form.save(commit=False)
-            habit.user = request.user
-            habit.save()
-            return redirect(to='list_habits')
+            form.save()
+            return redirect(to='habit_details', pk=date_record.habit.pk)
 
-    return render(request, "habit/edit_habit.html", {
-        "form": form,
-        "habit": habit,
-    })
+    return render(request, "habit/edit_date_record.html", {"form": form, "date_record": date_record})
 
 
 @login_required
 def delete_date_record(request, pk):
-    habit = get_object_or_404(Habit, pk=pk)
+    date_record = get_object_or_404(DateRecord, pk=pk)
     if request.method == 'POST':
-        habit.delete()
-        return redirect(to='list_habits')
+        pkey = date_record.habit.pk
+        date_record.delete()
+        return redirect(to='habit_details', pk=pkey)
 
-    return render(request, "habit/delete_habit.html", {"habit": habit})
+    return render(request, "habit/delete_date_record.html", {"date_record": date_record})

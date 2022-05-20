@@ -27,9 +27,12 @@ urlpatterns = [
     path("habit/new", habit_views.add_habit, name="add_habit"),
     path("habit/<int:pk>/edit", habit_views.edit_habit, name="edit_habit"),
     path("habit/<int:pk>/delete", habit_views.delete_habit, name="delete_habit"),
+    path("date_record/new", habit_views.add_date_record, name="add_date_record"),
+    path("habit/date_record/<int:pk>/edit", habit_views.edit_date_record, name="edit_date_record"),
+    path("habit/date_record/<int:pk>/delete", habit_views.delete_date_record, name="delete_date_record"),
     path("accounts/login/", habit_views.list_habits, name="login"),
     path("accounts/logout/", habit_views.log_out, name="log_out"),
-    path("habit_details/<int:pk>", habit_views.habit_details, name="habit_details"),
+    # path("habit_details/<int:pk>", habit_views.habit_details, name="habit_details"),
     # path("accounts/", include("habit.urls")),
     # path("accounts/", include("django.contrib.auth.urls")),
 ]

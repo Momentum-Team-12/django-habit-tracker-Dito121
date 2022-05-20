@@ -13,4 +13,12 @@
 <button> <a href="{% url 'edit_habit' habit.pk %}"> Edit Habit </a> </button>
 <button> <a href="{% url 'delete_habit' habit.pk %}"> Delete Habit </a> </button>
 
+{% for date_record in date_records %}
+<div class="date_record">
+    <h2> {{ date_record.date }} </h2>
+    <button> <a href="{% url 'edit_date_record' date_record.pk %}"> Edit Date Record</a> </button>
+    <button> <a href="{% url 'delete_date_record' date_record.pk %}"> Delete Date Record</a> </button>
+</div>
+{% endfor %}
+
 {% endblock %}
