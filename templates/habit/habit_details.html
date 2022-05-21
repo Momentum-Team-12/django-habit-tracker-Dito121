@@ -18,6 +18,7 @@
 {% for date_record in date_records %}
 <div class="date_records">
     <h2> {{ date_record.date }} </h2>
+    <p> Actual: {{ date_record.actual}} {{ habit.unit}}(s)  </p>
     <button> <a href="{% url 'edit_date_record' date_record.pk %}"> Edit Date Record</a> </button>
     <button> <a href="{% url 'delete_date_record' date_record.pk %}"> Delete Date Record</a> </button>
 </div>

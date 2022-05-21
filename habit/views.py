@@ -80,7 +80,7 @@ def add_date_record(request, pk):
             date_record.save()
             return redirect(to='habit_details', pk=pk)
 
-    return render(request, "habit/add_date_record.html", {"form": form})
+    return render(request, "habit/add_date_record.html", {"form": form, "habit": habit})
 
 
 @login_required
