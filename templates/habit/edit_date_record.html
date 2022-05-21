@@ -4,7 +4,7 @@
 <h1> Edit Date Record </h1>
 
 <div>
-  <form action="{% url 'edit_date_record' pk=date_record.pk %}" method="POST">
+  <form action="{% url 'edit_date_record' date_record.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <div>

@@ -87,7 +87,7 @@ def add_date_record(request, pk):
 def edit_date_record(request, pk):
     date_record = get_object_or_404(DateRecord, pk=pk)
     if request.method == 'GET':
-        form = DateRecord(instance=date_record)
+        form = DateRecordForm(instance=date_record)
     else:
         form = DateRecordForm(data=request.POST, instance=date_record)
         if form.is_valid():
