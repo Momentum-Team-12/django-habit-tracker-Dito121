@@ -3,18 +3,20 @@
 {% block content %}
 <h1>{{ habit.name }}</h1>
 <div>
-    <h5> Habit target: {{ habit.target }} </h5>
+    <p> Habit target: {{ habit.target }} </p>
     <p> Habit created: {{ habit.created_at }} </p>
-    <br>
     <p> Habit started on: {{ habit.starts_on }} </p>
     <p> Habit will end on: {{ habit.ends_on }} </p>
 </div>
 
 <button> <a href="{% url 'edit_habit' habit.pk %}"> Edit Habit </a> </button>
+
 <button> <a href="{% url 'delete_habit' habit.pk %}"> Delete Habit </a> </button>
 
+<button> <a href="{% url 'add_date_record' habit.pk %}"> Add Date Record </a> </button>
+
 {% for date_record in date_records %}
-<div class="date_record">
+<div class="date_records">
     <h2> {{ date_record.date }} </h2>
     <button> <a href="{% url 'edit_date_record' date_record.pk %}"> Edit Date Record</a> </button>
     <button> <a href="{% url 'delete_date_record' date_record.pk %}"> Delete Date Record</a> </button>

@@ -39,7 +39,6 @@ class DateRecordForm(forms.ModelForm):
     class Meta:
         model = DateRecord
         fields = [
-            'habit',
             'actual',
             'date',
         ]

@@ -8,9 +8,9 @@ from django.contrib.auth import logout
 
 
 @login_required
-def log_out(request):
+def logout(request):
     logout(request)
-    return redirect("log_out")
+    return redirect("logout")
 
 
 @login_required
@@ -78,7 +78,7 @@ def add_date_record(request, pk):
             date_record = form.save(commit=False)
             date_record.habit = habit
             date_record.save()
-            return redirect(to='list_date_record')
+            return redirect(to='habit_details', pk=pk)
 
     return render(request, "habit/add_date_record.html", {"form": form})
 
