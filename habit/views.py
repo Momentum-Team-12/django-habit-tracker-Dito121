@@ -52,7 +52,7 @@ def edit_habit(request, pk):
             habit = form.save(commit=False)
             habit.user = request.user
             habit.save()
-            return redirect(to='list_habits')
+            return redirect(to='habit_details', pk=habit.pk)
 
     return render(request, "habit/edit_habit.html", {"form": form, "habit": habit})
 

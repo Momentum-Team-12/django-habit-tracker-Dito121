@@ -33,9 +33,8 @@ class DateRecord(models.Model):
 
     class Meta:
         constraints = [
-            UniqueConstraint(fields=['habit', 'date'], name='unique_date_record')
+            models.UniqueConstraint(fields=['habit', 'date'], name='unique_date_record')
         ]
-        ordering = ['habit', 'date']
 
     def __str__(self):
         return str(self.date)
