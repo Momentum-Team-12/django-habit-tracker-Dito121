@@ -4,6 +4,8 @@
 
 <button> <a href="{% url 'list_habits' %}"> Home </a> </button>
 
+<button> <a href="{% url 'logout' %}"> Logout </a> </button>
+
 <h1>{{ habit.name }}</h1>
 <div>
     <p> Habit target: {{ habit.target }} {{ habit.unit }}(s) {{ habit.frequency }} </p>

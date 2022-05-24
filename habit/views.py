@@ -5,6 +5,7 @@ from .forms import HabitForm, DateRecordForm
 from .models import User, Habit, DateRecord
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.db import IntegrityError
 
 
 @login_required
@@ -74,13 +75,18 @@ def add_date_record(request, pk):
         form = DateRecordForm()
     else:
         form = DateRecordForm(data=request.POST)
+
         if form.is_valid():
             date_record = form.save(commit=False)
             date_record.habit = habit
-            date_record.save()
-            return redirect(to='habit_details', pk=pk)
 
-    return render(request, "habit/add_date_record.html", {"form": form, "habit": habit})
+            try:
+                date_record.save()
+                return redirect(to='habit_details', pk=pk)
+            except IntegrityError as err:
+                print(err)
+
+    return render(request, "habit/add_date_record.html", {"form": form, "habit": habit, "errors": form.errors})
 
 
 @login_required
