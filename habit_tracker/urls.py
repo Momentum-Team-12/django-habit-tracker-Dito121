@@ -32,4 +32,6 @@ urlpatterns = [
     path("habit/date_record/<int:pk>/delete", habit_views.delete_date_record, name="delete_date_record"),
     path("accounts/login/", habit_views.list_habits, name="login"),
     path("accounts/logout/", habit_views.logout, name="logout"),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('api.urls')),
 ]
