@@ -83,10 +83,10 @@ def add_date_record(request, pk):
             try:
                 date_record.save()
                 return redirect(to='habit_details', pk=pk)
-            except IntegrityError as err:
-                print(err)
+            except IntegrityError as error:
+                error_msg = "A record already exists for this date. Please edit existing record instead."
 
-    return render(request, "habit/add_date_record.html", {"form": form, "habit": habit, "errors": form.errors})
+    return render(request, "habit/add_date_record.html", {"form": form, "habit": habit, "errors": form.errors, "error_msg": error_msg})
 
 
 @login_required

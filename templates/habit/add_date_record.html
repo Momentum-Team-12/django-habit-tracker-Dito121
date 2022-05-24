@@ -15,4 +15,11 @@
     </div>
   </form>
 </div>
+
+{% if error_msg %}
+      <div class="form-errors">
+        {{ error_msg}}
+      </div>
+  {% endif %}
+
 {% endblock %}
