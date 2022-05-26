@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from habit.models import Habit, User
+from habit.models import Habit, User, DateRecord
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -24,4 +24,16 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'username',
             'email',
+        )
+
+
+class DateRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DateRecord
+        fields = (
+            'id',
+            'created_at',
+            'date',
+            'actual',
+            'habit',
         )
