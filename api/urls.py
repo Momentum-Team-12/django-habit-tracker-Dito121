@@ -13,10 +13,10 @@ urlpatterns = [
     path('habit/<int:pk>/update/', api_views.HabitUpdateView.as_view(), name='habit-update-api'),
     path('habit/<int:pk>/delete/', api_views.HabitDeleteView.as_view(), name='habit-delete-api'),
 
-    path('habit/<int:pk>/date_record/create/', api_views.DateRecordCreateView.as_view(), name='date-record-create-api'),
-    path('habit/<int:habit_pk>/date_record/<int:daterecord_pk>/', api_views.DateRecordDetailView.as_view(), name='date-record-detail-api'),
-    path('habit/<int:habit_pk>/date_record/<int:daterecord_pk>/update/', api_views.DateRecordUpdateView.as_view(), name='date-record-update-api'),
-    path('habit/<int:habit_pk>/date_record/<int:daterecord_pk>/delete/', api_views.DateRecordDeleteView.as_view(), name='date-record-delete-api'),
+    path('habit/<int:pk>/daterecord/create/', api_views.DateRecordCreateView.as_view(), name='date-record-create-api'),
+    path('habit/<int:habit_pk>/daterecord/<int:daterecord_pk>/', api_views.DateRecordDetailView.as_view(), name='date-record-detail-api'),
+    path('habit/<int:habit_pk>/daterecord/<int:daterecord_pk>/update/', api_views.DateRecordUpdateView.as_view(), name='date-record-update-api'),
+    path('habit/<int:habit_pk>/daterecord/<int:daterecord_pk>/delete/', api_views.DateRecordDeleteView.as_view(), name='date-record-delete-api'),
 ]
 
 

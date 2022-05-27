@@ -81,9 +81,16 @@ class DateRecordListView(APIView):
         return Response(serializer.data)
 
 
-class DateRecordDetailView(RetrieveAPIView):
-    queryset = DateRecord.objects.all()
-    serializer_class = DateRecordSerializer
+class DateRecordDetailView(APIView):
+
+    def get(self, request, habit_pk, daterecord_pk, format=None):
+        """
+        Return a JSON detail for a specific date record
+        """
+        habit = Habit.objects.filter(pk=habit_pk)
+        date_records = DateRecord.objects.filter(habit=habit[0], pk=daterecord_pk)
+        serializer = DateRecordSerializer(date_records, many=True)
+        return Response(serializer.data)
 
 
 class DateRecordCreateView(CreateAPIView):
