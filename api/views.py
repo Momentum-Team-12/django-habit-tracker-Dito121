@@ -19,7 +19,8 @@ from rest_framework.generics import (
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list-api', request=request, format=format),
-        'habits': reverse('habit-list-api', request=request, format=format)
+        'habits': reverse('habit-list-api', request=request, format=format),
+        'daterecords':reverse('date-records-list-api', request=request, format=format),
     })
 
 
@@ -32,6 +33,11 @@ class UserListView(APIView):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
+
+
+class UserDetailView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class HabitListView(APIView):
@@ -66,6 +72,18 @@ class HabitUpdateView(UpdateAPIView):
 class HabitDeleteView(DestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+
+
+class DateRecordView(APIView):
+
+    def get(self, request, format=None):
+        """
+        Return a JSON list of all date records
+        for all habits
+        """
+        date_records = DateRecord.objects.all()
+        serializer = DateRecordSerializer(date_records, many=True)
+        return Response(serializer.data)
 
 
 class DateRecordListView(APIView):
@@ -104,6 +122,13 @@ class DateRecordCreateView(CreateAPIView):
 class DateRecordUpdateView(UpdateAPIView):
     queryset = DateRecord.objects.all()
     serializer_class = DateRecordSerializer
+
+    def get_object(self, daterecord_pk):
+        queryset = self.get_queryset()
+
+        obj = DateRecord.objects.filter()
+        self.check_object_permissions(self.request, obj)
+        return obj
 
 
 class DateRecordDeleteView(DestroyAPIView):
