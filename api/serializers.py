@@ -2,40 +2,68 @@ from rest_framework import serializers
 from habit.models import Habit, User, DateRecord
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializerForAdmin(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
             'id',
             'username',
             'email',
+            'password',
             'habits',
         )
 
 
-class HabitSerializer(serializers.ModelSerializer):
+class HabitSerializerForUser(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = (
             'id',
+            'name',
             'target',
-            'user',
             'unit',
             'frequency',
             'created_at',
             'starts_on',
             'ends_on',
-            'date_records',
         )
 
 
-class DateRecordSerializer(serializers.ModelSerializer):
+class HabitSerializerForAdmin(serializers.ModelSerializer):
+    class Meta:
+        model = Habit
+        fields = (
+            'user',
+            'id',
+            'name',
+            'target',
+            'unit',
+            'frequency',
+            'created_at',
+            'starts_on',
+            'ends_on',
+        )
+
+
+class DateRecordSerializerForUser(serializers.ModelSerializer):
     class Meta:
         model = DateRecord
         fields = (
             'id',
+            'habit',
             'created_at',
             'date',
             'actual',
+        )
+
+
+class DateRecordSerializerForAdmin(serializers.ModelSerializer):
+    class Meta:
+        model = DateRecord
+        fields = (
+            'id',
             'habit',
+            'created_at',
+            'date',
+            'actual',
         )
