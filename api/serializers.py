@@ -84,7 +84,6 @@ class DateRecordSerializerForUser(serializers.ModelSerializer):
         model = DateRecord
         fields = (
             'id',
-            'habit',
             'created_at',
             'date',
             'actual',

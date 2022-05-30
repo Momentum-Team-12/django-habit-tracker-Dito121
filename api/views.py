@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
+from django.shortcuts import get_object_or_404
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from habit.models import Habit, User, DateRecord
@@ -108,7 +109,33 @@ class DateRecordViewSet(viewsets.ModelViewSet):
     serializer_class = DateRecordSerializerForUser
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self, pk):
+    serializer_action_classes = [
+        {'list': DateRecordSerializerForUser,
+            'create': DateRecordSerializerForUser,
+            'retrieve': DateRecordSerializerForUser,
+            'update': DateRecordSerializerForUser,
+            'partial_update': DateRecordSerializerForUser,
+            'destroy': DateRecordSerializerForUser},
+        {'list': DateRecordSerializerForAdmin,
+            'create': DateRecordSerializerForAdmin,
+            'retrieve': DateRecordSerializerForAdmin,
+            'update': DateRecordSerializerForAdmin,
+            'partial_update': DateRecordSerializerForAdmin,
+            'destroy': DateRecordSerializerForAdmin}
+    ]
+
+    def get_serializer_class(self, *args, **kwargs):
+        """Instantiate the list of serializers per action from class attribute (must be defined)."""
+        kwargs['partial'] = True
+        try:
+            if self.request.user.is_superuser:
+                return self.serializer_action_classes[1][self.action]
+            else:
+                return self.serializer_action_classes[0][self.action]
+        except (KeyError, AttributeError):
+            return super(HabitViewSet, self).get_serializer_class()
+
+    def get_queryset(self):
         assert self.queryset is not None, (
             "'%s' should either include a `queryset` attribute, "
             "or override the `get_queryset()` method."
@@ -116,46 +143,33 @@ class DateRecordViewSet(viewsets.ModelViewSet):
         )
 
         queryset = self.queryset
+        habit = get_object_or_404(Habit, pk=self.kwargs["habit_pk"])
         if isinstance(queryset, QuerySet) and not self.request.user.is_superuser:
-            queryset = queryset.filter(habit=self.request.user)
+            queryset = queryset.filter(habit=habit)
 
         return queryset
 
-    def get_serializer_class(self):
-        """
-        Return the class to use for the serializer.
-        Defaults to using `self.serializer_class`.
-
-        You may want to override this if you need to provide different
-        serializations depending on the incoming request.
-
-        (Eg. admins get full serialization, others get basic serialization)
-        """
-        assert self.serializer_class is not None, (
-            "'%s' should either include a `serializer_class` attribute, "
-            "or override the `get_serializer_class()` method."
-            % self.__class__.__name__
-        )
-
-        if not self.request.user.is_superuser:
-            return self.serializer_class
-
-        return DateRecordSerializerForAdmin
-
     def perform_create(self, serializer):
-        if not self.request.user.is_superuser:
-            serializer.save(user=self.request.user)
+        habit = get_object_or_404(Habit, pk=self.kwargs["habit_pk"])
+
+        if self.request.user.is_superuser:
+            serializer.save()
 
         else:
-            serializer.save()
-
-    def perform_update(self, serializer):
-        if not self.request.user.is_superuser and str(self.request.user.pk) == self.request.data['user']:
-            serializer.save(user=self.request.user)
-
-        elif self.request.user.is_superuser:
-            serializer.save()
+            serializer.save(habit=habit)
 
     def perform_destroy(self, instance):
-        if self.request.user == instance.user or self.request.user.is_superuser:
+        user = self.request.user._wrapped if hasattr(self.request.user, '_wrapped') else self.request.user
+        if user == instance.user or user.is_superuser:
             instance.delete()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
