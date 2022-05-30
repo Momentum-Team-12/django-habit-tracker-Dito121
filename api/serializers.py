@@ -9,8 +9,6 @@ class UserSerializerForAdmin(serializers.ModelSerializer):
             'id',
             'username',
             'email',
-            'password',
-            'habits',
         )
 
 
