@@ -73,6 +73,7 @@ def add_date_record(request, pk):
     habit = get_object_or_404(Habit, pk=pk)
     if request.method == 'GET':
         form = DateRecordForm()
+        error_msg = None
     else:
         form = DateRecordForm(data=request.POST)
 
@@ -82,6 +83,7 @@ def add_date_record(request, pk):
 
             try:
                 date_record.save()
+                error_msg = None
                 return redirect(to='habit_details', pk=pk)
             except IntegrityError as error:
                 error_msg = "A record already exists for this date. Please edit existing record instead."

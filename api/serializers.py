@@ -14,7 +14,7 @@ class UserSerializerForAdmin(serializers.ModelSerializer):
         )
 
 
-class HabitSerializerForUser(serializers.ModelSerializer):
+class HabitListSerializerForUser(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = (
@@ -29,7 +29,23 @@ class HabitSerializerForUser(serializers.ModelSerializer):
         )
 
 
-class HabitSerializerForAdmin(serializers.ModelSerializer):
+class HabitDetailSerializerForUser(serializers.ModelSerializer):
+    class Meta:
+        model = Habit
+        fields = (
+            'id',
+            'name',
+            'target',
+            'unit',
+            'frequency',
+            'created_at',
+            'starts_on',
+            'ends_on',
+            'date_records',
+        )
+
+
+class HabitListSerializerForAdmin(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = (
@@ -42,6 +58,24 @@ class HabitSerializerForAdmin(serializers.ModelSerializer):
             'created_at',
             'starts_on',
             'ends_on',
+            'date_records',
+        )
+
+
+class HabitDetailSerializerForAdmin(serializers.ModelSerializer):
+    class Meta:
+        model = Habit
+        fields = (
+            'user',
+            'id',
+            'name',
+            'target',
+            'unit',
+            'frequency',
+            'created_at',
+            'starts_on',
+            'ends_on',
+            'date_records',
         )
 
 
