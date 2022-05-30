@@ -30,10 +30,17 @@ def api_root(request, format=None):
         })
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializerForAdmin
-    permission_classes = (IsAdminUser,)
+class UserViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializerForAdmin(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializerForAdmin(user)
+        return Response(serializer.data)
 
 
 class HabitViewSet(viewsets.ModelViewSet):
