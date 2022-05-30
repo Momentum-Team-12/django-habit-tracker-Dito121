@@ -171,7 +171,9 @@ class DateRecordViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         habit = get_object_or_404(Habit, pk=self.kwargs["habit_pk"])
-        queryset = queryset.filter(habit__user=self.request.user)
+
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(habit__user=self.request.user)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
