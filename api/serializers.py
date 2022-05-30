@@ -58,7 +58,6 @@ class HabitListSerializerForAdmin(serializers.ModelSerializer):
             'created_at',
             'starts_on',
             'ends_on',
-            'date_records',
         )
 
 

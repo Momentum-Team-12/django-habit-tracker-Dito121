@@ -144,8 +144,11 @@ class DateRecordViewSet(viewsets.ModelViewSet):
 
         queryset = self.queryset
         habit = get_object_or_404(Habit, pk=self.kwargs["habit_pk"])
-        if isinstance(queryset, QuerySet) and not self.request.user.is_superuser:
+        if isinstance(queryset, QuerySet):
             queryset = queryset.filter(habit=habit)
+
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(habit__user=self.request.user)
 
         return queryset
 
@@ -158,13 +161,10 @@ class DateRecordViewSet(viewsets.ModelViewSet):
         else:
             serializer.save(habit=habit)
 
-    def perform_destroy(self, instance):
-        user = self.request.user._wrapped if hasattr(self.request.user, '_wrapped') else self.request.user
-        if user == instance.user or user.is_superuser:
-            instance.delete()
-
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        habit = get_object_or_404(Habit, pk=self.kwargs["habit_pk"])
+        queryset = queryset.filter(habit__user=self.request.user)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
