@@ -33,9 +33,12 @@ def api_root(request, format=None):
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = User.objects.all()
+
         if not self.request.user.is_superuser:
             queryset = queryset.filter(pk=self.request.user.pk)
+
         serializer = UserSerializerForAdmin(queryset, many=True)
+
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
@@ -51,18 +54,22 @@ class HabitViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     serializer_action_classes = [
-        {'list': HabitListSerializerForUser,
+        {
+            'list': HabitListSerializerForUser,
             'create': HabitListSerializerForUser,
             'retrieve': HabitDetailSerializerForUser,
             'update': HabitListSerializerForUser,
             'partial_update': HabitListSerializerForUser,
-            'destroy': HabitListSerializerForUser},
-        {'list': HabitListSerializerForAdmin,
+            'destroy': HabitListSerializerForUser
+        },
+        {
+            'list': HabitListSerializerForAdmin,
             'create': HabitListSerializerForAdmin,
             'retrieve': HabitDetailSerializerForAdmin,
             'update': HabitListSerializerForAdmin,
             'partial_update': HabitListSerializerForAdmin,
-            'destroy': HabitListSerializerForAdmin}
+            'destroy': HabitListSerializerForAdmin
+        }
     ]
 
     def get_serializer_class(self, *args, **kwargs):
