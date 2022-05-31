@@ -15,6 +15,7 @@ gunicorn = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+djoser = "*"
 
 [dev-packages]
 flake8 = "*"
