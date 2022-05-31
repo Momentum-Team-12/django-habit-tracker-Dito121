@@ -33,6 +33,8 @@ def api_root(request, format=None):
 class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = User.objects.all()
+        if not self.request.user.is_superuser:
+            queryset = queryset.filter(pk=self.request.user.pk)
         serializer = UserSerializerForAdmin(queryset, many=True)
         return Response(serializer.data)
 
