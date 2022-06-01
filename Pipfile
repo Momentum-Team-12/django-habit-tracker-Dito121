@@ -16,6 +16,7 @@ djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
 djoser = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 flake8 = "*"
